@@ -13,11 +13,11 @@ if TYPE_CHECKING:  # pragma: no cover
         from airflow.utils.context import Context  # type: ignore[attr-defined]
 
 import kubernetes.client as k8s
-from airflow.exceptions import AirflowException, AirflowSkipException
+from airflow.exceptions import AirflowException
 from airflow.providers.cncf.kubernetes.callbacks import KubernetesPodOperatorCallback, client_type
 
 from cosmos.airflow._override import CosmosKubernetesPodManager
-from cosmos.airflow.compatibility import EmptyOperator
+from cosmos.airflow.compatibility import AirflowSkipException, EmptyOperator
 from cosmos.log import get_logger
 from cosmos.operators._watcher.base import BaseConsumerSensor, store_dbt_resource_status_from_log
 from cosmos.operators._watcher.xcom import (

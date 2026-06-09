@@ -26,3 +26,13 @@ else:
 # operator as a string for later dynamic import (e.g. ``Task.operator_class``) rather than
 # referencing the class. Derived from the class itself, so it always matches the imported one.
 EMPTY_OPERATOR_CLASS_PATH = f"{EmptyOperator.__module__}.{EmptyOperator.__name__}"
+
+
+# ``airflow.exceptions.AirflowSkipException`` is deprecated on Airflow 3.1+ in favour of the Task SDK
+# path, which does not exist on Airflow 2 / 3.0.
+try:
+    # attr-defined is ignored because the mypy env pins apache-airflow<3.1, where this path does not
+    # yet exist; at runtime the except branch handles Airflow 2 / 3.0.
+    from airflow.sdk.exceptions import AirflowSkipException as AirflowSkipException  # type: ignore[attr-defined]
+except ImportError:
+    from airflow.exceptions import AirflowSkipException as AirflowSkipException
